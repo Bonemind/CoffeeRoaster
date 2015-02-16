@@ -1,6 +1,7 @@
 #include "Pins.h"
 #include "Stage.h"
 #include "IdleStage.h"
+#include "HeatingStage.h"
 
 //Declarations
 /**
@@ -18,7 +19,7 @@ void setup() {
 	}
 
 	//Initialize the application in an idlestage
-	currentStage = new IdleStage;
+	currentStage = new HeatingStage(5);
 }
 
 /**
