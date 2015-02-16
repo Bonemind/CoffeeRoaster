@@ -1,5 +1,8 @@
 #include "HeatingStage.h"
+//Testing vars
+//TODO: REMOVE
 const int CURRTEMP = 1;
+const int BEANTEMP = 5;
 
 /**
  * The number of degrees to allow the oven temperature to deviate from the target temp
@@ -36,6 +39,9 @@ void HeatingStage::update() {
 		digitalWrite(HEATING_ELEMENT, HIGH);
 	} else if (CURRTEMP > this->targetTemperature + HEATING_TEMP_DEVIATION) {
 		digitalWrite(HEATING_ELEMENT, LOW);
+	}
+	if (BEANTEMP >= this->targetTemperature - HEATING_TEMP_DEVIATION) {
+		Serial.println("t-ok");
 	}
 }
 

@@ -2,6 +2,7 @@
 #include "Stage.h"
 #include "IdleStage.h"
 #include "HeatingStage.h"
+#include "CoolingStage.h"
 
 //Declarations
 /**
@@ -17,9 +18,11 @@ void setup() {
 	for (int i = 0; i < PinCount; i++) {
 	 pinMode(PinArray[i], OUTPUT);
 	}
+	Serial.begin(9600);
 
 	//Initialize the application in an idlestage
-	currentStage = new HeatingStage(5);
+	/* currentStage = new HeatingStage(5); */
+	currentStage = new CoolingStage;
 }
 
 /**
