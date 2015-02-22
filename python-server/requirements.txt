@@ -1,0 +1,15 @@
+BeautifulSoup==3.2.1
+Flask==0.10.1
+Jinja2==2.7.3
+MarkupSafe==0.23
+Pillow==2.6.1
+WTForms==2.0.2
+Werkzeug==0.10.1
+beautifulsoup4==4.3.2
+euclid==0.01
+flask-peewee==0.6.6
+img2pdf==0.1.3
+itsdangerous==0.24
+peewee==2.4.7
+solidpython==0.1.1
+wtf-peewee==0.2.3
