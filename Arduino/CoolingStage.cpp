@@ -4,6 +4,8 @@
  */
 const int TIME_TO_ALL_DROPPED = 10 * 1000;
 
+int startTime = 0;
+
 /**
  * Initialize the cooling stage
  * Set the pins correctly
@@ -21,20 +23,20 @@ void CoolingStage::initialize() {
 	digitalWrite(ELECTROMAGNET, HIGH);
 	digitalWrite(COOLING_FAN, HIGH);
 	digitalWrite(OVEN_FAN, HIGH);
-	delay(TIME_TO_ALL_DROPPED);
-
-	//All beans should have dropped by now, so turn off the stirrer and electromagnet
-	digitalWrite(BEAN_STIRRER, LOW);
-	digitalWrite(ELECTROMAGNET, LOW);
-
+	startTime = millis();
 }
 
 /**
  * Update the cooling stage
- * No-op since the stage does not need to check anything
+ * Checks if all beans have dropped, if so, turn off the stirrer and electromaget
  */
 void CoolingStage::update() {
-	//Void
+	//Check if we have waited long enough for the beans to have dropped
+	if (startTime + TIME_TO_ALL_DROPPED < millis()) {
+		//All beans should have dropped by now, so turn off the stirrer and electromagnet
+		digitalWrite(BEAN_STIRRER, LOW);
+		digitalWrite(ELECTROMAGNET, LOW);
+	}
 }
 
 /**

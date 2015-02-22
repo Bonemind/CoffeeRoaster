@@ -2,6 +2,7 @@
 #define HeatingStage_h
 
 #include "Stage.h"
+#include "TempPins.h"
 
 /**
  * Defines the idle stage as a child of Stage

@@ -1,17 +1,43 @@
 #include "Pins.h"
+#include "TempPins.h"
+#include "max6675.h"
 #include "Stage.h"
 #include "IdleStage.h"
 #include "HeatingStage.h"
 #include "CoolingStage.h"
 #include "SerialCommand.h"
-
 //Declarations
 /**
  * The stage we are currently in
  */
 Stage* currentStage;
 
+/**
+ * Serial command parser
+ */
 SerialCommand serialCommand;
+
+/**
+ * The Air temperture sensor
+ */
+MAX6675 AirtempSensor(T1SCK, T1CS, T1SO);
+
+/**
+ * The bean temp sensor
+ */
+MAX6675 BeantempSensor(T1SCK, T1CS, T1SO);
+
+/**
+ * The current air temprature
+ * Globally defined in TempPins.h
+ */
+double Airtemp = 0.0;
+
+/**
+ * The current bean temprature
+ * Globally defined in TempPins.h
+ */
+double Beantemp = 0.0;
 
 /**
  * Handles the setting of a new stage
@@ -28,7 +54,7 @@ void setStage() {
  stageArg = serialCommand.next();
  if (stageArg == NULL) {
 	Serial.println("ERROR: Missing arg");
-	returnl
+	return;
  }
 
  //Parse the arg to a number and resolve to a stage
@@ -56,6 +82,7 @@ void setStage() {
  }
  //Clean up the old stage
  currentStage->end();
+ delete currentStage;
 
  //Set the new stage
  currentStage = newStage;
@@ -69,6 +96,10 @@ void setStage() {
 	stageArg = serialCommand.next();
  }
 }
+
+ /**
+  * Handles unknown messages
+  */
  void unrecognized(const char *cmd) {
  	Serial.print("ERROR: ");
  	Serial.println(cmd);
@@ -90,7 +121,11 @@ void setup() {
 
 	//Initialize the application in an idlestage
 	currentStage = new IdleStage;
+	/* currentStage = new HeatingStage(30); */
 	Serial.println("Ready");
+	Airtemp = 0.0;
+	Beantemp = 0.0;
+	currentStage->initialize();
 }
 
 /**
@@ -98,6 +133,8 @@ void setup() {
  * Run continuously in a loop
  */
 void loop() {
+  Airtemp = AirtempSensor.readCelsius();
+  Beantemp = BeantempSensor.readCelsius();
   serialCommand.readSerial();
 	currentStage->update();
 	return;
