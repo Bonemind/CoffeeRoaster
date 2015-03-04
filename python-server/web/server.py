@@ -4,14 +4,15 @@ from flask_peewee.db import Database
 from flask_peewee.auth import Auth
 from flask_peewee.admin import Admin
 from flask_peewee.rest import RestAPI, UserAuthentication
+from flask_peewee.serializer import Serializer
 
 #flask-peewee config
 DATABASE = {
         "name": "roaster.db",
         "engine": "peewee.SqliteDatabase"
 }
-DEBUG = True
 SECRET_KEY = "HUSHH"
+DEBUG = True
 
 #app init
 app = Flask(__name__)
@@ -39,6 +40,15 @@ api.register(db.StageType)
 api.register(db.Profile)
 api.setup()
 
+@app.route("/api/coffee/<id>/profiles")
+def testroute(id):
+    coffee = db.Coffee.get(db.Coffee.id == id)
+    profiles = db.Profile.select().where(db.Profile.coffee == coffee)
+    for profile in profiles:
+        print profile
+    serializer = Serializer()
+    print serializer.serialize_object(profiles)
+    return id
 
 def InitializeDatabase():
     try:
