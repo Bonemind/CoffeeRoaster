@@ -1,0 +1,15 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Stages</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="profile in profiles">
+			<td>{{ profile.name }}</td>
+			<td><a href="#/profile/{{profile.id}}/stages">Stages</a></td>
+		</tr>
+
+	</tbody>
+</table>

@@ -1,10 +1,13 @@
 from database import database as db
 from flask import Flask
+import flask
 from flask_peewee.db import Database
 from flask_peewee.auth import Auth
 from flask_peewee.admin import Admin
 from flask_peewee.rest import RestAPI, UserAuthentication
 from flask_peewee.serializer import Serializer
+from flask.ext.cors import CORS
+import functools
 
 #flask-peewee config
 DATABASE = {
@@ -31,6 +34,7 @@ flask_peewee_admin.register(db.Profile)
 flask_peewee_auth.register_admin(flask_peewee_admin)
 flask_peewee_admin.setup()
 
+
 #flask-peewee api init
 user_auth = UserAuthentication(flask_peewee_auth)
 api = RestAPI(app, default_auth=user_auth)
@@ -40,15 +44,24 @@ api.register(db.StageType)
 api.register(db.Profile)
 api.setup()
 
-@app.route("/api/coffee/<id>/profiles")
-def testroute(id):
-    coffee = db.Coffee.get(db.Coffee.id == id)
-    profiles = db.Profile.select().where(db.Profile.coffee == coffee)
-    for profile in profiles:
-        print profile
-    serializer = Serializer()
-    print serializer.serialize_object(profiles)
-    return id
+app.config["CORS_HEADERS"] = "Content-Type"
+CORS(app)
+
+
+
+@app.after_request
+def add_cors(resp):
+    """ Ensure all responses have the CORS headers. This ensures any failures are also accessible
+        by the client. """
+    resp.headers['Access-Control-Allow-Origin'] = flask.request.headers.get('Origin','*')
+    resp.headers['Access-Control-Allow-Credentials'] = 'true'
+    resp.headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS, GET, PUT, DELETE'
+    resp.headers['Access-Control-Allow-Headers'] = flask.request.headers.get( 
+        'Access-Control-Request-Headers', 'Authorization' )
+    # set low for debugging
+    if app.debug:
+        resp.headers['Access-Control-Max-Age'] = '1'
+    return resp
 
 def InitializeDatabase():
     try:

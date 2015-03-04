@@ -1,0 +1,21 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th>Type</th>
+			<th>Duration</th>
+			<th>Target Temperature</th>
+			<th>Number</th>
+			<th>Profile</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="stage in stages | object2array | orderBy: predicate : reverse">
+			<td>{{ stageTypes[stage.stage_type - 1] }}</td>
+			<td>{{ stage.duration }}s</td>
+			<td>{{ stage.target_temperature }} &#176;C</td>
+			<td>{{ stage.sequence_number }}</td>
+			<td>{{ stage.profile }}</td>
+		</tr>
+
+	</tbody>
+</table>

@@ -1,0 +1,15 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Profiles</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="coffee in coffees">
+			<td>{{ coffee.name }}</td>
+			<td><a href="#/coffee/{{coffee.id}}/profiles">Profiles</a></td>
+		</tr>
+
+	</tbody>
+</table>
