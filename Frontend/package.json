@@ -1,0 +1,25 @@
+{
+  "name": "CoffeeRoaster",
+  "version": "0.0.1",
+  "description": "A Frontend for a coffee-roasting solution",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bonemind/CoffeeRoaster"
+  },
+  "author": "Bonemind",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Bonemind/CoffeeRoaster/issues"
+  },
+  "homepage": "https://github.com/Bonemind/CoffeeRoaster",
+  "devDependencies": {
+    "bower": "^1.3.12",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-serve": "^0.1.6"
+  }
+}
