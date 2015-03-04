@@ -25,7 +25,18 @@ MAX6675 AirtempSensor(T1SCK, T1CS, T1SO);
 /**
  * The bean temp sensor
  */
-MAX6675 BeantempSensor(T1SCK, T1CS, T1SO);
+MAX6675 BeantempSensor(T2SCK, T2CS, T2SO);
+
+/**
+ * The time the last reading was done
+ * We need to poll at relatively large intervals to get sensible data out of the thermocouples
+ */
+int lastreading = -1000;
+
+/**
+ * The interval to read the temperatures in
+ */
+const int readingInterval = 1000;
 
 /**
  * The current air temprature
@@ -73,6 +84,7 @@ void setStage() {
 				 Serial.println("ERROR: Missing arg");
 				 return;
 				}
+				Serial.println(atol(tempArg));
  				newStage = new HeatingStage(atol(tempArg));
  				break;
  	case 2:
@@ -113,6 +125,7 @@ void setup() {
 	for (int i = 0; i < PinCount; i++) {
 	 pinMode(PinArray[i], OUTPUT);
 	}
+	delay(3);
 
 	//Begin serial communication and setup callbacks
 	Serial.begin(9600);
@@ -133,8 +146,13 @@ void setup() {
  * Run continuously in a loop
  */
 void loop() {
-  Airtemp = AirtempSensor.readCelsius();
-  Beantemp = BeantempSensor.readCelsius();
+  if (readingInterval + lastreading < millis()) {
+	 Airtemp = AirtempSensor.readCelsius();
+	 Beantemp = BeantempSensor.readCelsius();
+	 lastreading = millis();
+	 Serial.println(Airtemp);
+	 Serial.println(Beantemp);
+	}
   serialCommand.readSerial();
 	currentStage->update();
 	return;

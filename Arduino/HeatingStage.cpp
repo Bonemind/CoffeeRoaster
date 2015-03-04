@@ -5,6 +5,8 @@
  */
 const int HEATING_TEMP_DEVIATION = 2;
 
+bool reportedTemp = false;
+
 /**
  * Constructor, sets the target temperature for this heating stage
  */
@@ -21,6 +23,7 @@ void HeatingStage::initialize() {
 	for (int i = 0; i < PinCount; i++) {
 		digitalWrite(PinArray[i], LOW);
 	}
+	reportedTemp = false;
 	digitalWrite(OVEN_FAN, HIGH);
 	digitalWrite(BEAN_STIRRER, HIGH);
 }
@@ -36,9 +39,10 @@ void HeatingStage::update() {
 	} else if (Airtemp > this->targetTemperature + HEATING_TEMP_DEVIATION) {
 		digitalWrite(HEATING_ELEMENT, LOW);
 	}
-	if (Beantemp >= this->targetTemperature - HEATING_TEMP_DEVIATION
+	if (!reportedTemp && Beantemp >= this->targetTemperature - HEATING_TEMP_DEVIATION
 		&& Beantemp <= this->targetTemperature + HEATING_TEMP_DEVIATION ) {
 		Serial.println("t-ok");
+		reportedTemp = true;
 	}
 }
 
