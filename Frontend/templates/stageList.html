@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-striped small-last-col">
 	<thead>
 		<tr>
 			<th>Type</th>
@@ -6,15 +6,17 @@
 			<th>Target Temperature</th>
 			<th>Number</th>
 			<th>Profile</th>
+			<th><span ng-show="profileId" class="glyphicon glyphicon-plus" ng-click="showModal(undefined, stageTypes.plain())">&nbsp;</span></th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="stage in stages | object2array | orderBy: predicate : reverse">
-			<td>{{ stageTypes[stage.stage_type - 1] }}</td>
+		<tr ng-repeat="stage in stages | orderBy:'+sequence_number'">
+			<td>{{ stageTypes[stage.stage_type - 1].name }}</td>
 			<td>{{ stage.duration }}s</td>
 			<td>{{ stage.target_temperature }} &#176;C</td>
 			<td>{{ stage.sequence_number }}</td>
 			<td>{{ stage.profile }}</td>
+			<td><span ng-show="profileId" class="glyphicon glyphicon-edit" ng-click="showModal(stage, stageTypes)">&nbsp;</span></td>
 		</tr>
 
 	</tbody>

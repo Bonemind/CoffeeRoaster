@@ -8,7 +8,16 @@
 .input-group[class*="col-"] {
     padding-right: 15px;
     padding-left: 15px;
-    }
+}
+
+.glyphicon:hover {
+   cursor: pointer;
+}
+
+.small-last-col thead th:last-child {
+   width: 5%;
+}
+
 
 
 

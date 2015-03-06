@@ -6,10 +6,12 @@ var RoastingApp = angular.module("RoastingApp", [
 	"restangular",
 	"RoastingAppControllers",
 	"angular-loading-bar",
+	"angularModalService",
 	"angular-inview"
 ]).config(["RestangularProvider", function(RestangularProvider){
 	//Configure restangular
 	RestangularProvider.setBaseUrl("http://localhost:5000/api/");
+	RestangularProvider.setRequestSuffix('/');
 
 	//Format the data when fetching a collection
 	//We expect an array of objects, not an object with an array of objects in it
@@ -129,3 +131,22 @@ RoastingApp.filter("object2array", function() {
 		return _.toArray(input);
 	}
 });
+
+/**
+ *  Source: https://gist.github.com/asafge/7430497
+ *  A generic confirmation for risky actions.
+ *  Usage: Add attributes: ng-really-message="Are you sure"? ng-really-click="takeAction()" function
+ */
+angular.module('RoastingApp').directive('ngReallyClick', [function() {
+    return {
+	restrict: 'A',
+	link: function(scope, element, attrs) {
+	    element.bind('click', function() {
+		var message = attrs.ngReallyMessage;
+		if (message && confirm(message)) {
+		    scope.$apply(attrs.ngReallyClick);
+		}
+	    });
+	}
+    }
+}]);

@@ -25,6 +25,9 @@
     "angular-inview": "~1.5.0",
     "restangular": "~1.4.0",
     "underscore": "~1.8.2",
-    "angular-loading-bar": "~0.7.1"
+    "angular-loading-bar": "~0.7.1",
+    "angular-modal-service": "~0.6.3",
+    "jquery-ui": "~1.11.3",
+    "angular-ui-sortable": "~0.13.3"
   }
 }

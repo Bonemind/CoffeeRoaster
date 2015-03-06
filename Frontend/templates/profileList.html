@@ -1,14 +1,16 @@
-<table class="table">
+<table class="table table-striped small-last-col">
 	<thead>
 		<tr>
 			<th>Name</th>
 			<th>Stages</th>
+			<th><span ng-show="coffeeId" class="glyphicon glyphicon-plus" ng-click="showModal(undefined)">&nbsp;</span></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="profile in profiles">
 			<td>{{ profile.name }}</td>
 			<td><a href="#/profile/{{profile.id}}/stages">Stages</a></td>
+			<td><span ng-show="coffeeId" class="glyphicon glyphicon-edit" ng-click="showModal(profile)">&nbsp;</span></td>
 		</tr>
 
 	</tbody>
